@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 from ml_utils import load_model, predict, predict_v1
+import datetime
 
 app = FastAPI(
     title="Iris Predictor",
@@ -18,6 +19,11 @@ class QueryIn(BaseModel):
 
 class QueryOut(BaseModel):
     flower_class: str
+
+
+class QueryOutV1(BaseModel):
+    flower_class: str
+    timestamp: str
 
 
 @app.get("/ping")
@@ -37,11 +43,11 @@ if __name__ == "__main__":
 
 
 
-@app.post("/predict_flower_v1", response_model=QueryOut, status_code=200)
+@app.post("/predict_flower_v1", response_model=QueryOutV1, status_code=200)
 def predict_flower(
     query_data: QueryIn
 ):
-    output = {'flower_class': predict_v1(query_data)}
+    output = {'flower_class': predict_v1(query_data), "timestamp": str(datetime.now())}
     return output
 
 if __name__ == "__main__":

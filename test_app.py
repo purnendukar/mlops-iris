@@ -56,7 +56,7 @@ def test_pred_virginica_v1():
     with TestClient(app) as client:
         response = client.post('/predict_flower', json=payload)
         assert response.status_code == 200
-        assert response.json() == {'flower_class': "Iris Virginica"}
+        assert response.json()["flower_class"] == "Iris Virginica"
 
 
 def test_pred_versicolor_v1():
@@ -69,7 +69,7 @@ def test_pred_versicolor_v1():
     with TestClient(app) as client:
         response = client.post('/predict_flower', json=payload)
         assert response.status_code == 200
-        assert response.json() == {'flower_class': "Iris Versicolour"}
+        assert response.json()["flower_class"] == "Iris Versicolour"
 
 
 def test_pred_setosa_v1():
@@ -82,4 +82,4 @@ def test_pred_setosa_v1():
     with TestClient(app) as client:
         response = client.post('/predict_flower', json=payload)
         assert response.status_code == 200
-        assert response.json() == {'flower_class': "Iris Setosa"}
+        assert response.json()["flower_class"] == "Iris Setosa"
