@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-from ml_utils import load_model, predict
+from ml_utils import load_model, predict, predict_v1
 
 app = FastAPI(
     title="Iris Predictor",
@@ -30,6 +30,18 @@ def predict_flower(
     query_data: QueryIn
 ):
     output = {'flower_class': predict(query_data)}
+    return output
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host='0.0.0.0', port=8888, reload=True)
+
+
+
+@app.post("/predict_flower_v1", response_model=QueryOut, status_code=200)
+def predict_flower(
+    query_data: QueryIn
+):
+    output = {'flower_class': predict_v1(query_data)}
     return output
 
 if __name__ == "__main__":
